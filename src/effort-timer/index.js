@@ -14,4 +14,10 @@ export default {
      supportEmail: 'support@kustomer.com',
    }
  },
+ i18n: {
+    en_us: {
+      [`${tutorialApp}.settings.page.title`]: 'Effort Timer',
+      [`${tutorialApp}.settings.page.description`]: 'Configure settings for your Effort Timer app with Kustomer.',
+    }
+  },
 };
