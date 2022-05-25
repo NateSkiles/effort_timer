@@ -1,8 +1,8 @@
-const effortTimer = 'effort_timer';
+const effortTimerApp = 'effort_timer';
 
 
 export default {
- app: effortTimer,
+ app: effortTimerApp,
  title: 'Effort Timer',
  version: '0.0.1',
  dependencies: ['kustomer-^1.5.0'],
@@ -16,8 +16,8 @@ export default {
  },
  i18n: {
     en_us: {
-      [`${tutorialApp}.settings.page.title`]: 'Effort Timer',
-      [`${tutorialApp}.settings.page.description`]: 'Configure settings for your Effort Timer app with Kustomer.',
+      [`${effortTimerApp}.settings.page.title`]: 'Effort Timer',
+      [`${effortTimerApp}.settings.page.description`]: 'Configure settings for your Effort Timer app with Kustomer.',
     }
   },
 };

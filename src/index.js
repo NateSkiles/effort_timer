@@ -1,7 +1,7 @@
-import effortTimer from './effort-timer';
+import effortTimerApp from './effort-timer';
 
 const apps = [
-    effortTimer
+    effortTimerApp
 ];
 
 export { apps as default };
