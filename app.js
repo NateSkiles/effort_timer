@@ -1,9 +1,9 @@
 let attributes,
     convoId,
     running,
+    startDate,
     durationTotal = 0,
     durationCurrent = 0,
-    startDate,
     startTimer;
 
 const timerText = document.getElementById("timerText");
@@ -40,7 +40,6 @@ async function loadContext() {
             }, 1000)
 
         } else {
-            console.log(durationTotal);
             setTime(durationTotal);
             stopTimerText();
         }
@@ -55,7 +54,7 @@ async function timer() {
     if (running) {
         let dateDiff = new Date(currentTime) - new Date(startDate);
         durationTotal += dateDiff;
-        console.log(durationTotal);
+        console.log(startDate);
 
         await Kustomer.request({
             url: "/v1/conversations/" + convoId,
@@ -99,10 +98,9 @@ async function timer() {
                 return;
             }
             else {
-                startDate = conversations.attributes.custom.effotim2TimerStartAt;
-                if (conversations.attributes.custom['@effotim2DurationNum']) {
-                    durationCurrent = conversations.attributes.custom['@effotim2DurationNum'];
-                };
+                startDate = conversations.attributes.custom['@effotim2TimerStartAt'];
+                durationCurrent = conversations.attributes.custom['@effotim2DurationNum'];
+
                 console.log(conversations.attributes.custom);
 
                 running = true;
