@@ -99,7 +99,7 @@ async function timer() {
                 return;
             }
             else {
-                // startDate = conversations.attributes.custom.effotim2TimerStartAt; not needed?
+                startDate = conversations.attributes.custom.effotim2TimerStartAt;
                 if (conversations.attributes.custom['@effotim2DurationNum']) {
                     durationCurrent = conversations.attributes.custom['@effotim2DurationNum'];
                 };
