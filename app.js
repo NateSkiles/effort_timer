@@ -1,14 +1,12 @@
 let attributes,
     convoId,
     running,
-    conversationTimerStartAt,
     durationTotal = 0,
     durationCurrent = 0,
     startDate,
     startTimer;
 
 const timerText = document.getElementById("timerText");
-
 
 async function loadContext() {
     await Kustomer.initialize(function (contextJSON) {
@@ -34,19 +32,17 @@ async function loadContext() {
             durationCurrent = new Date(currentTime) - new Date(startDate) + durationTotal;
 
             setTime(durationCurrent);
-
-            timerText.style.backgroundColor = "#ff4c55";
-            timerText.innerText = "STOP";
+            startTimerText();
 
             startTimer = setInterval(() => {
-                durationCurrent += 1000
-                setTime(durationCurrent)
+                durationCurrent += 1000;
+                setTime(durationCurrent);
             }, 1000)
 
         } else {
+            console.log(durationTotal);
             setTime(durationTotal);
-            timerText.style.backgroundColor = "#2ea44f";
-            timerText.innerText = "START";
+            stopTimerText();
         }
     });
 }
@@ -59,6 +55,7 @@ async function timer() {
     if (running) {
         let dateDiff = new Date(currentTime) - new Date(startDate);
         durationTotal += dateDiff;
+        console.log(durationTotal);
 
         await Kustomer.request({
             url: "/v1/conversations/" + convoId,
@@ -80,8 +77,8 @@ async function timer() {
                 setTime(conversations.attributes.custom['@effotim2DurationNum']);
                 clearInterval(startTimer);
                 running = false;
-                timerText.style.backgroundColor = "#2ea44f";
-                timerText.innerText = "START";
+                stopTimerText();
+
                 return console.log("Stopping Timer");
             }
         });
@@ -104,19 +101,19 @@ async function timer() {
             else {
                 // startDate = conversations.attributes.custom.effotim2TimerStartAt; not needed?
                 if (conversations.attributes.custom['@effotim2DurationNum']) {
-                    durationCurrent = conversations.attributes.custom['@effotim2DurationNum']
+                    durationCurrent = conversations.attributes.custom['@effotim2DurationNum'];
                 };
+                console.log(conversations.attributes.custom);
 
                 running = true;
-                timerText.style.backgroundColor = "#ff4c55";
-                timerText.innerText = "STOP";
+                startTimerText();
 
                 console.log(durationCurrent)
 
                 startTimer = setInterval(() => {
-                    durationCurrent += 1000
-                    setTime(durationCurrent)
-                }, 1000)
+                    durationCurrent += 1000;
+                    setTime(durationCurrent);
+                }, 1000);
 
                 return console.log("Starting Timer");
             }
@@ -147,6 +144,16 @@ function setTime(durationTotal) {
         document.getElementById("mm").innerText = `${durationCurrent.m.pad()}`;
         document.getElementById("ss").innerText = `${durationCurrent.s.pad()}`;
     }
+}
+
+function startTimerText() {
+    timerText.style.backgroundColor = "#ff4c55";
+    timerText.innerText = "STOP";
+}
+
+function stopTimerText() {
+    timerText.style.backgroundColor = "#2ea44f";
+    timerText.innerText = "START";
 }
 
 // Display leading zero

@@ -4,7 +4,7 @@ export default {
   app: effort_timer_app,
   title: 'Effort Timer',
   iconUrl: "https://cdn.glitch.global/7ab9dfdc-9274-473d-a0a7-466d1abed72e/clock.png?v=1653500930639",
-  version: '0.1.0',
+  version: '0.1.1',
   dependencies: ['kustomer-^1.5.0'],
   description: 'This app can be used to track the amount of time that an agent is putting effort into a conversation. Starting the timer indicates that you are actively working on the open conversation. Stopping the timer indicates that you have finished working on a conversation for now.',
   appDetails: {
@@ -42,7 +42,7 @@ export default {
           "example": "Sum of timer duration"
         },
         "timerEndAt": {
-          "displayName": "Conversation Timer Start Time",
+          "displayName": "Conversation Timer End Time",
           "example": ""
         },
         "timerStartAt": {
