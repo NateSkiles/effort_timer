@@ -1,10 +1,4 @@
-let attributes,
-    convoId,
-    running,
-    startDate,
-    durationTotal = 0,
-    durationCurrent = 0,
-    startTimer;
+let attributes, convoId, running, startDate, durationTotal, durationCurrent = 0, startTimer;
 
 const timerText = document.getElementById("timerText");
 
@@ -13,17 +7,12 @@ async function loadContext() {
         attributes = contextJSON.conversation.attributes;
         convoId = contextJSON.conversation.id;
 
-        if (attributes.custom['@effotim2TimerBool']) {
-            running = attributes.custom['@effotim2TimerBool'];
-        }
-
         if (attributes.custom['@effotim2TimerStartAt']) {
             startDate = new Date(attributes.custom['@effotim2TimerStartAt']).toISOString();
         }
 
-        if (attributes.custom['@effotim2DurationNum']) {
-            durationTotal = attributes.custom['@effotim2DurationNum'];
-        }
+        attributes.custom['@effotim2TimerBool'] ? running = attributes.custom['@effotim2TimerBool'] : running = false;
+        attributes.custom['@effotim2DurationNum'] ? durationTotal = attributes.custom['@effotim2DurationNum'] : durationTotal = 0;
 
         // If timerBool is true, find current duration, set timer, then start set interval
         // Else, set timer with current duration on conversation
@@ -54,7 +43,6 @@ async function timer() {
     if (running) {
         let dateDiff = new Date(currentTime) - new Date(startDate);
         durationTotal += dateDiff;
-        console.log(startDate);
 
         await Kustomer.request({
             url: "/v1/conversations/" + convoId,
@@ -99,14 +87,10 @@ async function timer() {
             }
             else {
                 startDate = conversations.attributes.custom['@effotim2TimerStartAt'];
-                durationCurrent = conversations.attributes.custom['@effotim2DurationNum'];
-
-                console.log(conversations.attributes.custom);
+                conversations.attributes.custom['@effotim2DurationNum'] ? durationCurrent = conversations.attributes.custom['@effotim2DurationNum'] : durationCurrent = 0;
 
                 running = true;
                 startTimerText();
-
-                console.log(durationCurrent)
 
                 startTimer = setInterval(() => {
                     durationCurrent += 1000;

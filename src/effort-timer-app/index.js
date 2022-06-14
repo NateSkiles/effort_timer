@@ -4,7 +4,7 @@ export default {
   app: effort_timer_app,
   title: 'Effort Timer',
   iconUrl: "https://cdn.glitch.global/7ab9dfdc-9274-473d-a0a7-466d1abed72e/clock.png?v=1653500930639",
-  version: '0.1.1',
+  version: '0.1.16',
   dependencies: ['kustomer-^1.5.0'],
   description: 'This app can be used to track the amount of time that an agent is putting effort into a conversation. Starting the timer indicates that you are actively working on the open conversation. Stopping the timer indicates that you have finished working on a conversation for now.',
   appDetails: {
@@ -138,7 +138,8 @@ export default {
   workflows: [
     {
       "description": "",
-      "name": "effort-timer-1-of-4",
+      "id": "62980484c285350a282b3736",
+      "name": "effort-timer-start-1-of-4",
       "steps": [
         {
           "transitions": [
@@ -214,7 +215,7 @@ export default {
     {
       "description": "",
       "id": "629806ce83f4a07ef11e0c76",
-      "name": "effort-timer-30-minutes-2-of-4",
+      "name": "effort-timer-30-mins-2-of-4",
       "steps": [
         {
           "transitions": [
@@ -326,7 +327,7 @@ export default {
     {
       "description": "",
       "id": "6298070dd1689c70089fb57e",
-      "name": "effort-timer-60-minutes-3-of-4",
+      "name": "effort-timer-60-mins-3-of-4",
       "steps": [
         {
           "transitions": [
@@ -411,10 +412,10 @@ export default {
               "value": 10,
               "type": "relative"
             },
-            "workflowId": "62980740565f5020cf3ab2dc",
+            "workflowId": "6298048404b830033b481c56",
             "inputs": {
               "conversationId": "/#steps.1.conversationId",
-              "effotim2TimerStartAt": "/#steps.1.@effotim2TimerStartAt"
+              "@effotim2TimerStartAt": "/#steps.1.@effotim2TimerStartAt"
             }
           },
           "appVersion": "scheduler-^1.0.1"
@@ -453,8 +454,8 @@ export default {
     },
     {
       "description": "",
-      "id": "62980740565f5020cf3ab2dc",
-      "name": "effort-timer-stop-timer-4-of-4",
+      "id": "6298048404b830033b481c56",
+      "name": "effort-timer-end-timer-4-of-4",
       "steps": [
         {
           "transitions": [
@@ -540,7 +541,7 @@ export default {
           "id": "ibyRPoEGn",
           "action": "kustomer.regex-match.generic",
           "params": {
-            "testString": "{{dateDiff 'milliseconds' from=steps.SoXxw6grv.custom.@effotim2TimerStartAt to=steps.anHK7NH4C.match}}",
+            "testString": "{{dateDiff 'milliseconds' from=steps.SoXxw6grv.custom['@effotim2TimerStartAt'] to=steps.anHK7NH4C.match}}",
             "regex": ".*"
           },
           "appVersion": "kustomer-^1.9.2",
@@ -635,7 +636,6 @@ export default {
         ],
         "id": "1",
         "callable": true,
-        "eventName": "kustomer.workflow.62980740565f5020cf3ab2dc.call",
         "schema": {
           "properties": {
             "conversationId": {
@@ -649,7 +649,8 @@ export default {
             "conversationId",
             "@effotim2TimerStartAt"
           ]
-        }
+        },
+        "eventName": "kustomer.workflow.6298048404b830033b481c56.call"
       }
     }
   ]
