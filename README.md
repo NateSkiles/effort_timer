@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/kusty.png" alt="Kustomer Kusty"/>
+  <img src="./assets/clock.png" alt="Timer"/>
 </p>
 
 # Kustomer App Templates
