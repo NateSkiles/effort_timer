@@ -4,7 +4,7 @@ export default {
   app: effort_timer_app,
   title: 'Effort Timer',
   iconUrl: "https://cdn.glitch.global/7ab9dfdc-9274-473d-a0a7-466d1abed72e/clock.png?v=1653500930639",
-  version: '0.1.16',
+  version: '0.2.0',
   dependencies: ['kustomer-^1.5.0'],
   description: 'This app can be used to track the amount of time that an agent is putting effort into a conversation. Starting the timer indicates that you are actively working on the open conversation. Stopping the timer indicates that you have finished working on a conversation for now.',
   appDetails: {
@@ -139,7 +139,7 @@ export default {
     {
       "description": "",
       "id": "62980484c285350a282b3736",
-      "name": "effort-timer-start-1-of-4",
+      "name": "effort-timer-wf-1-of-4",
       "steps": [
         {
           "transitions": [
@@ -215,7 +215,7 @@ export default {
     {
       "description": "",
       "id": "629806ce83f4a07ef11e0c76",
-      "name": "effort-timer-30-mins-2-of-4",
+      "name": "effort-timer-wf-2-of-4",
       "steps": [
         {
           "transitions": [
@@ -327,7 +327,7 @@ export default {
     {
       "description": "",
       "id": "6298070dd1689c70089fb57e",
-      "name": "effort-timer-60-mins-3-of-4",
+      "name": "effort-timer-wf-3-of-4",
       "steps": [
         {
           "transitions": [
@@ -455,7 +455,7 @@ export default {
     {
       "description": "",
       "id": "6298048404b830033b481c56",
-      "name": "effort-timer-end-timer-4-of-4",
+      "name": "effort-timer-wf-4-of-4",
       "steps": [
         {
           "transitions": [
@@ -496,8 +496,29 @@ export default {
             "conversation": "/#steps.SoXxw6grv.id",
             "body": "**Stopping Timer**\n\nYour timer has been running for 4 hours, please restart timer if your you're still working on this conversation. ",
             "userMentions": [
-              { "user": "/#steps.Z4L303Fyn.id" }
+              {
+                "user": "/#steps.Z4L303Fyn.id"
+              }
             ]
+          },
+          "appVersion": "kustomer-^1.9.2"
+        },
+        {
+          "transitions": [
+            {
+              "target": "EGdKWffGp",
+              "condition": {
+                "op": "true",
+                "values": [
+                  true
+                ]
+              }
+            }
+          ],
+          "errorCases": [],
+          "id": "anHK7NH4C",
+          "meta": {
+            "displayName": "Current Time"
           },
           "appVersion": "kustomer-^1.9.2"
         },
@@ -514,14 +535,14 @@ export default {
             }
           ],
           "errorCases": [],
-          "id": "anHK7NH4C",
-          "action": "kustomer.regex-match.generic",
+          "id": "EGdKWffGp",
+          "action": "kustomer.transform.generic",
           "params": {
-            "testString": "{{{date 'hours' count=0}}}",
-            "regex": ".*"
-          },
-          "meta": {
-            "displayName": "Current Time"
+            "input": {
+              "timerStartAt": "/#steps.SoXxw6grv.custom.@effotim2TimerStartAt",
+              "currentTime": "{{{date 'hours' count=0}}}",
+              "currentDuration": "/#steps.SoXxw6grv.custom.@effotim2DurationNum"
+            }
           },
           "appVersion": "kustomer-^1.9.2"
         },
@@ -541,7 +562,7 @@ export default {
           "id": "ibyRPoEGn",
           "action": "kustomer.regex-match.generic",
           "params": {
-            "testString": "{{dateDiff 'milliseconds' from=steps.SoXxw6grv.custom['@effotim2TimerStartAt'] to=steps.anHK7NH4C.match}}",
+            "testString": "{{dateDiff 'milliseconds' from=steps.EGdKWffGp.output.timerStartAt to=steps.EGdKWffGp.output.currentTime}}",
             "regex": ".*"
           },
           "appVersion": "kustomer-^1.9.2",
@@ -565,7 +586,7 @@ export default {
           "id": "so7kOHPqH",
           "action": "kustomer.regex-match.generic",
           "params": {
-            "testString": "{{ math steps.ibyRPoEGn.match \"+\" steps.SoXxw6grv.custom.@effotim2DurationNum }}",
+            "testString": "{{ math steps.ibyRPoEGn.match \"+\"  steps.EGdKWffGp.output.currentDuration }}",
             "regex": ".*"
           },
           "meta": {
@@ -580,10 +601,10 @@ export default {
           "action": "kustomer.app.effort_timer_6142bf2f6ef1940524f53d94.put-request",
           "params": {
             "durationNum": "/#fn:parseInt,steps.so7kOHPqH.match",
-            "currentTime": "/#fn:dateFormat,steps.anHK7NH4C.match",
+            "currentTime": "/#fn:dateFormat,steps.EGdKWffGp.output.currentTime",
             "conversationId": "/#steps.1.conversationId"
           },
-          "appVersion": "effort_timer_6142bf2f6ef1940524f53d94-^0.0.30"
+          "appVersion": "effort_timer_6142bf2f6ef1940524f53d94-^0.1.17"
         },
         {
           "transitions": [
